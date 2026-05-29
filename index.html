@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INKontrol — Tudo que seu estúdio precisa, em um só lugar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────── */
+    :root {
+      --primary:        #C2410C;
+      --primary-hover:  #9A3412;
+      --primary-light:  #FEE4D6;
+      --primary-dark:   #7C2D12;
+      --accent:         #7C3AED;
+      --accent-light:   #EDE9FE;
+      --success:        #10B981;
+      --warning:        #F59E0B;
+      --error:          #EF4444;
+
+      --bg:             #F8FAFC;
+      --surface:        #FFFFFF;
+      --surface-2:      #F1F5F9;
+      --border:         #E2E8F0;
+      --text-primary:   #0F172A;
+      --text-secondary: #64748B;
+      --text-muted:     #94A3B8;
+
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,.08);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,.10);
+      --shadow-xl: 0 24px 64px rgba(0,0,0,.12);
+    }
+
+    [data-theme="dark"] {
+      --bg:             #0A0A0A;
+      --surface:        #121212;
+      --surface-2:      #1C1C1C;
+      --border:         #2A2A2A;
+      --text-primary:   #FFFFFF;
+      --text-secondary: #A1A1AA;
+      --text-muted:     #52525B;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.5);
+      --shadow-md: 0 4px 16px rgba(0,0,0,.6);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,.7);
+      --primary-light:  rgba(194,65,12,.15);
+    }
+
+    /* ─── RESET ──────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      transition: background .25s, color .25s;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    /* ─── NAVBAR ─────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(248,250,252,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: background .25s;
+    }
+    [data-theme="dark"] nav { background: rgba(10,10,10,.85); }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-icon {
+      width: 34px; height: 34px; background: var(--primary);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 8px rgba(194,65,12,.35);
+    }
+    .logo-icon svg { width: 18px; height: 18px; fill: white; }
+    .logo-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 19px; font-weight: 800; letter-spacing: -.4px;
+      color: var(--text-primary);
+    }
+    .logo-text span { color: var(--primary); }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-links a {
+      font-size: 14px; font-weight: 500; color: var(--text-secondary);
+      transition: color .15s;
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 9px 18px; border-radius: 8px;
+      font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
+      cursor: pointer; border: none; transition: all .18s; white-space: nowrap;
+    }
+    .btn-primary { background: var(--primary); color: white; box-shadow: 0 2px 8px rgba(194,65,12,.3); }
+    .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(194,65,12,.4); }
+    .btn-outline { background: transparent; color: var(--text-primary); border: 1.5px solid var(--border); }
+    .btn-outline:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+    .btn-ghost { background: transparent; color: var(--text-secondary); }
+    .btn-ghost:hover { color: var(--text-primary); }
+    .btn-lg { padding: 14px 28px; font-size: 15px; border-radius: 10px; }
+    .btn-xl { padding: 16px 32px; font-size: 16px; border-radius: 12px; }
+
+    .theme-toggle {
+      display: flex; align-items: center;
+      background: var(--surface-2); border: 1px solid var(--border);
+      border-radius: 100px; padding: 3px; cursor: pointer; gap: 2px;
+    }
+    .theme-btn {
+      padding: 5px 12px; border-radius: 100px; border: none;
+      font-size: 12px; font-weight: 500; cursor: pointer;
+      background: transparent; color: var(--text-muted); transition: all .2s;
+    }
+    .theme-btn.active {
+      background: var(--surface); color: var(--text-primary); box-shadow: var(--shadow-sm);
+    }
+
+    /* ─── HERO ───────────────────────────────────────── */
+    .hero {
+      padding: 140px 24px 80px;
+      max-width: 1100px; margin: 0 auto;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--primary-light); color: var(--primary-hover);
+      padding: 6px 14px; border-radius: 100px;
+      font-size: 13px; font-weight: 600; margin-bottom: 24px;
+      border: 1px solid rgba(194,65,12,.2);
+    }
+    .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+    .hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(36px, 5vw, 58px);
+      font-weight: 800; line-height: 1.1; letter-spacing: -.5px;
+      color: var(--text-primary); margin-bottom: 20px;
+    }
+    .hero h1 .highlight {
+      color: var(--primary);
+      position: relative;
+    }
+    .hero p {
+      font-size: 18px; color: var(--text-secondary); max-width: 520px;
+      margin: 0 auto 36px; line-height: 1.7;
+    }
+    .hero-actions { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+    .hero-note { font-size: 13px; color: var(--text-muted); }
+    .hero-note span { color: var(--success); font-weight: 600; }
+
+    /* APP MOCKUP */
+    .hero-mockup {
+      margin: 56px auto 0;
+      max-width: 900px;
+      position: relative;
+    }
+    .mockup-glow {
+      position: absolute; top: 40px; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 300px;
+      background: radial-gradient(ellipse, rgba(194,65,12,.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .mockup-window {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow-xl);
+      position: relative;
+    }
+    .mockup-titlebar {
+      display: flex; align-items: center; gap: 8px;
+      padding: 12px 16px; background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+    }
+    .mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .mockup-url {
+      flex: 1; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 6px; padding: 4px 12px; font-size: 12px;
+      color: var(--text-muted); text-align: center; margin: 0 16px;
+    }
+    .mockup-body { display: flex; height: 380px; }
+    .mockup-sidebar {
+      width: 180px; background: var(--surface); border-right: 1px solid var(--border);
+      padding: 16px 10px; display: flex; flex-direction: column; gap: 3px; flex-shrink: 0;
+    }
+    .mockup-logo {
+      display: flex; align-items: center; gap: 7px;
+      margin-bottom: 18px; padding: 0 6px;
+    }
+    .mockup-logo-icon {
+      width: 24px; height: 24px; background: var(--primary);
+      border-radius: 6px; display: flex; align-items: center; justify-content: center;
+    }
+    .mockup-logo-icon svg { width: 13px; height: 13px; fill: white; }
+    .mockup-logo-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px; font-weight: 800; color: var(--text-primary);
+    }
+    .mockup-logo-text span { color: var(--primary); }
+    .nav-it {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 8px; border-radius: 7px;
+      font-size: 12px; font-weight: 500; color: var(--text-secondary);
+    }
+    .nav-it.on { background: var(--primary-light); color: var(--primary); font-weight: 600; }
+    .mockup-main { flex: 1; background: var(--bg); padding: 18px; overflow: hidden; }
+    .mockup-topbar {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;
+    }
+    .mockup-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px; font-weight: 700; color: var(--text-primary);
+    }
+    .mockup-btn {
+      background: var(--primary); color: white; border: none;
+      padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer;
+    }
+    .mockup-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 12px; }
+    .mockup-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 10px 12px;
+    }
+    .mockup-card-lbl { font-size: 9px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 3px; }
+    .mockup-card-val { font-size: 16px; font-weight: 700; color: var(--text-primary); font-family: 'Outfit', sans-serif; }
+    .mockup-card-sub { font-size: 9px; color: var(--success); font-weight: 600; margin-top: 2px; }
+    .mockup-table { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .mockup-thead { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; padding: 7px 10px; background: var(--surface-2); }
+    .mockup-thead span { font-size: 9px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; }
+    .mockup-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; padding: 8px 10px; border-top: 1px solid var(--border); align-items: center; }
+    .mockup-row span { font-size: 11px; color: var(--text-primary); }
+    .mbadge { display: inline-flex; padding: 2px 6px; border-radius: 100px; font-size: 9px; font-weight: 700; }
+    .mbadge-green { background: #D1FAE5; color: #065F46; }
+    .mbadge-yellow { background: #FEF3C7; color: #92400E; }
+    .mbadge-blue { background: var(--primary-light); color: var(--primary-hover); }
+
+    /* ─── SOCIAL PROOF ───────────────────────────────── */
+    .social-proof {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px;
+      text-align: center;
+    }
+    .social-proof p {
+      font-size: 13px; color: var(--text-muted); font-weight: 500;
+      display: flex; align-items: center; justify-content: center; gap: 24px; flex-wrap: wrap;
+    }
+    .proof-item { display: flex; align-items: center; gap: 6px; }
+    .proof-icon { font-size: 16px; }
+
+    /* ─── SECTIONS ───────────────────────────────────── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 96px 0; }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--primary-light); color: var(--primary-hover);
+      padding: 5px 12px; border-radius: 100px;
+      font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(26px, 3.5vw, 38px); font-weight: 800;
+      line-height: 1.15; letter-spacing: -.3px;
+      color: var(--text-primary); margin-bottom: 14px;
+    }
+    .section-sub {
+      font-size: 17px; color: var(--text-secondary);
+      max-width: 480px; line-height: 1.7;
+    }
+    .section-header { margin-bottom: 56px; }
+    .section-header.center { text-align: center; }
+    .section-header.center .section-sub { margin: 0 auto; }
+
+    /* ─── FEATURES ───────────────────────────────────── */
+    #funcionalidades { background: var(--surface); }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+    .feature-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 14px; padding: 24px;
+      transition: box-shadow .2s, transform .2s, border-color .2s;
+    }
+    .feature-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); border-color: var(--primary); }
+    .feature-icon {
+      width: 46px; height: 46px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 16px;
+    }
+    .feature-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;
+    }
+    .feature-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
+    .feature-tag {
+      display: inline-flex; margin-top: 12px;
+      padding: 3px 10px; border-radius: 100px;
+      font-size: 11px; font-weight: 600;
+    }
+    .tag-new { background: var(--accent-light); color: var(--accent); }
+    .tag-soon { background: var(--surface-2); color: var(--text-muted); border: 1px solid var(--border); }
+
+    /* ─── COMO FUNCIONA ──────────────────────────────── */
+    .steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 32px; position: relative; }
+    .steps::before {
+      content: ''; position: absolute; top: 28px; left: calc(16.66% + 20px); right: calc(16.66% + 20px);
+      height: 2px; background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 2px;
+    }
+    .step { text-align: center; position: relative; }
+    .step-number {
+      width: 56px; height: 56px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px; font-family: 'Outfit', sans-serif;
+      font-size: 20px; font-weight: 800; position: relative; z-index: 1;
+    }
+    .step:nth-child(1) .step-number { background: var(--primary); color: white; box-shadow: 0 4px 16px rgba(194,65,12,.4); }
+    .step:nth-child(2) .step-number { background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; box-shadow: 0 4px 16px rgba(124,58,237,.3); }
+    .step:nth-child(3) .step-number { background: var(--accent); color: white; box-shadow: 0 4px 16px rgba(124,58,237,.4); }
+    .step h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 17px; font-weight: 700; color: var(--text-primary); margin-bottom: 10px;
+    }
+    .step p { font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
+
+    /* ─── PRICING ────────────────────────────────────── */
+    #planos { background: var(--surface); }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; align-items: start; }
+    .pricing-card {
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: 16px; padding: 28px; position: relative;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .pricing-card:hover { box-shadow: var(--shadow-md); }
+    .pricing-card.popular {
+      background: var(--surface); border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(194,65,12,.08), var(--shadow-md);
+      transform: scale(1.03);
+    }
+    .popular-badge {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--primary); color: white;
+      padding: 4px 14px; border-radius: 100px;
+      font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .plan-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;
+    }
+    .plan-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+    .plan-price {
+      display: flex; align-items: baseline; gap: 4px; margin-bottom: 6px;
+    }
+    .plan-price .currency { font-size: 16px; font-weight: 600; color: var(--text-secondary); }
+    .plan-price .amount {
+      font-family: 'Outfit', sans-serif;
+      font-size: 40px; font-weight: 800; color: var(--text-primary); letter-spacing: -.5px;
+    }
+    .plan-price .period { font-size: 13px; color: var(--text-muted); }
+    .plan-note { font-size: 12px; color: var(--text-muted); margin-bottom: 24px; }
+    .plan-divider { height: 1px; background: var(--border); margin: 20px 0; }
+    .plan-features { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+    .plan-feature {
+      display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--text-secondary);
+    }
+    .plan-feature .check { color: var(--success); font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+    .plan-feature .dash  { color: var(--text-muted); font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+    .plan-cta { display: block; text-align: center; padding: 12px; border-radius: 9px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all .18s; }
+    .cta-primary { background: var(--primary); color: white; box-shadow: 0 2px 8px rgba(194,65,12,.3); }
+    .cta-primary:hover { background: var(--primary-hover); }
+    .cta-outline { background: transparent; color: var(--primary); border: 1.5px solid var(--primary); }
+    .cta-outline:hover { background: var(--primary-light); }
+    .cta-ghost { background: var(--surface-2); color: var(--text-secondary); }
+    .cta-ghost:hover { color: var(--text-primary); }
+
+    /* ─── FAQ ────────────────────────────────────────── */
+    .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 680px; margin: 0 auto; }
+    .faq-item {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+    }
+    .faq-q {
+      width: 100%; text-align: left; padding: 18px 20px;
+      background: none; border: none; cursor: pointer;
+      font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
+      color: var(--text-primary); display: flex; justify-content: space-between; align-items: center;
+      transition: color .15s;
+    }
+    .faq-q:hover { color: var(--primary); }
+    .faq-arrow { font-size: 18px; color: var(--text-muted); transition: transform .25s; }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+    .faq-a {
+      max-height: 0; overflow: hidden; transition: max-height .3s ease, padding .3s;
+      font-size: 14px; color: var(--text-secondary); line-height: 1.7; padding: 0 20px;
+    }
+    .faq-item.open .faq-a { max-height: 200px; padding: 0 20px 18px; }
+
+    /* ─── CTA BANNER ─────────────────────────────────── */
+    .cta-banner {
+      background: linear-gradient(135deg, #1A0A05 0%, #0D0D0D 100%);
+      border-radius: 24px; padding: 64px 48px; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .cta-banner::before {
+      content: '';
+      position: absolute; top: -60px; right: -60px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(194,65,12,.3) 0%, transparent 70%);
+    }
+    .cta-banner::after {
+      content: '';
+      position: absolute; bottom: -60px; left: -60px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(124,58,237,.2) 0%, transparent 70%);
+    }
+    .cta-banner h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(24px, 3vw, 36px); font-weight: 800;
+      color: white; margin-bottom: 14px; position: relative; z-index: 1;
+    }
+    .cta-banner p {
+      font-size: 16px; color: rgba(255,255,255,.7);
+      margin-bottom: 32px; position: relative; z-index: 1;
+    }
+    .cta-banner .btn-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; position: relative; z-index: 1; }
+    .btn-white { background: white; color: var(--primary-dark); }
+    .btn-white:hover { background: #F0FDFB; transform: translateY(-1px); }
+    .btn-outline-white { background: transparent; color: white; border: 1.5px solid rgba(255,255,255,.4); }
+    .btn-outline-white:hover { background: rgba(255,255,255,.1); border-color: white; }
+
+    /* ─── FOOTER ─────────────────────────────────────── */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 48px 24px 32px;
+    }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px; margin-bottom: 40px;
+    }
+    .footer-brand p { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-top: 12px; max-width: 260px; }
+    .footer-col h4 {
+      font-size: 13px; font-weight: 700; color: var(--text-primary);
+      text-transform: uppercase; letter-spacing: .06em; margin-bottom: 14px;
+    }
+    .footer-col a {
+      display: block; font-size: 14px; color: var(--text-muted);
+      margin-bottom: 9px; transition: color .15s;
+    }
+    .footer-col a:hover { color: var(--primary); }
+    .footer-bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 24px; border-top: 1px solid var(--border);
+      font-size: 13px; color: var(--text-muted); flex-wrap: wrap; gap: 12px;
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .steps { grid-template-columns: 1fr; }
+      .steps::before { display: none; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .pricing-card.popular { transform: none; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .cta-banner { padding: 40px 24px; }
+      .mockup-sidebar { display: none; }
+    }
+    @media (max-width: 480px) {
+      .footer-top { grid-template-columns: 1fr; }
+      .hero-actions { flex-direction: column; width: 100%; }
+      .hero-actions .btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAVBAR ───────────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <div class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2C9.5 2 7.5 3.5 6.5 5.5C5 5.2 3 6.5 3 9c0 1.5.8 2.8 2 3.5V20a1 1 0 001 1h12a1 1 0 001-1v-7.5c1.2-.7 2-2 2-3.5 0-2.5-2-3.8-3.5-3.5C16.5 3.5 14.5 2 12 2zm0 2c1.8 0 3.2 1.2 3.5 2.8l.2.9.9-.3c.9-.3 1.9.3 1.9 1.6 0 .9-.6 1.7-1.5 2l-.5.2V20H8v-8.8l-.5-.2C6.6 10.7 6 9.9 6 9c0-1.3 1-.9 1.9-1.6l.9.3.2-.9C9.3 5.2 10.2 4 12 4zm-1 8v2h2v-2h-2zm0 3v2h2v-2h-2z"/></svg>
+      </div>
+      <div class="logo-text"><span>INK</span>ontrol</div>
+    </div>
+    <div class="nav-links">
+      <a href="#funcionalidades">Funcionalidades</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#planos">Planos</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="nav-actions">
+      <div class="theme-toggle">
+        <button class="theme-btn active" id="btn-light" onclick="setTheme('light')">☀️</button>
+        <button class="theme-btn" id="btn-dark" onclick="setTheme('dark')">🌙</button>
+      </div>
+      <a href="https://app.inkontrol.com.br" class="btn btn-ghost" style="text-decoration: none;">Entrar</a>
+      <button class="btn btn-primary" onclick="alert('Cadastro em breve!')">Teste grátis</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ─── HERO ─────────────────────────────────────────── -->
+<section style="padding:0;">
+  <div class="hero">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Novo · Sistema completo para tatuagem
+    </div>
+    <h1>Tudo que seu estúdio<br>precisa, em <span class="highlight">um só lugar</span></h1>
+    <p>Gerencie sessões, comissões, estoque e finanças do seu estúdio de tatuagem de forma simples, rápida e profissional.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary btn-xl" onclick="alert('Cadastro em breve!')">
+        🚀 Começar teste gratuito
+      </button>
+      <button class="btn btn-outline btn-xl" onclick="alert('Cadastro em breve!')">
+        Cadastrar meu estúdio
+      </button>
+    </div>
+    <p class="hero-note"><span>✓ Grátis para 1 tatuador</span> · Sem cartão de crédito · Cancele quando quiser</p>
+
+    <div class="hero-mockup">
+      <div class="mockup-glow"></div>
+      <div class="mockup-window">
+        <div class="mockup-titlebar">
+          <div class="mockup-dot" style="background:#FF5F57;"></div>
+          <div class="mockup-dot" style="background:#FEBC2E;"></div>
+          <div class="mockup-dot" style="background:#28C840;"></div>
+          <div class="mockup-url">app.inkontrol.com.br/dashboard</div>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-sidebar">
+            <div class="mockup-logo">
+              <div class="mockup-logo-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2C9.5 2 7.5 3.5 6.5 5.5C5 5.2 3 6.5 3 9c0 1.5.8 2.8 2 3.5V20a1 1 0 001 1h12a1 1 0 001-1v-7.5c1.2-.7 2-2 2-3.5 0-2.5-2-3.8-3.5-3.5C16.5 3.5 14.5 2 12 2zm0 2c1.8 0 3.2 1.2 3.5 2.8l.2.9.9-.3c.9-.3 1.9.3 1.9 1.6 0 .9-.6 1.7-1.5 2l-.5.2V20H8v-8.8l-.5-.2C6.6 10.7 6 9.9 6 9c0-1.3 1-.9 1.9-1.6l.9.3.2-.9C9.3 5.2 10.2 4 12 4zm-1 8v2h2v-2h-2zm0 3v2h2v-2h-2z"/></svg>
+              </div>
+              <div class="mockup-logo-text"><span>INK</span>ontrol</div>
+            </div>
+            <div class="nav-it on">📊 Dashboard</div>
+            <div class="nav-it">📅 Sessões</div>
+            <div class="nav-it">👥 Clientes</div>
+            <div class="nav-it">🧑‍🎨 Equipe</div>
+            <div class="nav-it">📦 Estoque</div>
+            <div class="nav-it">💳 Financeiro</div>
+            <div class="nav-it">⚙️ Configurações</div>
+          </div>
+          <div class="mockup-main">
+            <div class="mockup-topbar">
+              <div class="mockup-title">Dashboard — Abril 2026</div>
+              <button class="mockup-btn">+ Nova sessão</button>
+            </div>
+            <div class="mockup-cards">
+              <div class="mockup-card">
+                <div class="mockup-card-lbl">Receita total</div>
+                <div class="mockup-card-val">R$ 12.480</div>
+                <div class="mockup-card-sub">↑ 18% vs. março</div>
+              </div>
+              <div class="mockup-card">
+                <div class="mockup-card-lbl">Lucro líquido</div>
+                <div class="mockup-card-val" style="color:var(--primary);">R$ 8.240</div>
+                <div class="mockup-card-sub">↑ 12% vs. março</div>
+              </div>
+              <div class="mockup-card">
+                <div class="mockup-card-lbl">Sessões</div>
+                <div class="mockup-card-val">34</div>
+                <div class="mockup-card-sub">este mês</div>
+              </div>
+            </div>
+            <div class="mockup-table">
+              <div class="mockup-thead">
+                <span>Cliente</span><span>Tatuador</span><span>Valor</span><span>Status</span>
+              </div>
+              <div class="mockup-row">
+                <span>Mariana Lima</span><span style="color:var(--text-muted)">Lucas M.</span>
+                <span>R$ 450</span><span class="mbadge mbadge-green">Concluído</span>
+              </div>
+              <div class="mockup-row">
+                <span>Felipe Torres</span><span style="color:var(--text-muted)">Ana C.</span>
+                <span>R$ 280</span><span class="mbadge mbadge-yellow">Andamento</span>
+              </div>
+              <div class="mockup-row">
+                <span>Carla Souza</span><span style="color:var(--text-muted)">Lucas M.</span>
+                <span>R$ 600</span><span class="mbadge mbadge-blue">Agendado</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SOCIAL PROOF ──────────────────────────────────── -->
+<div class="social-proof">
+  <p>
+    <span class="proof-item"><span class="proof-icon">✅</span> Sem contrato de fidelidade</span>
+    <span class="proof-item"><span class="proof-icon">☁️</span> 100% online, acesse de qualquer dispositivo</span>
+    <span class="proof-item"><span class="proof-icon">🔒</span> Dados protegidos e seguros</span>
+    <span class="proof-item"><span class="proof-icon">🇧🇷</span> Feito no Brasil para estúdios brasileiros</span>
+  </p>
+</div>
+
+<!-- ─── FUNCIONALIDADES ────────────────────────────────── -->
+<section id="funcionalidades">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Funcionalidades</div>
+      <h2 class="section-title">Tudo que você precisa<br>para gerenciar seu estúdio</h2>
+      <p class="section-sub">Do agendamento ao fechamento da sessão, o INKontrol cuida de tudo para você focar no que realmente importa: tatuar.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#FEE4D6;">📅</div>
+        <h3>Gestão de Sessões</h3>
+        <p>Crie, acompanhe e feche sessões com controle total de status, valores e comissões por tatuador.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#EDE9FE;">💰</div>
+        <h3>Financeiro Completo</h3>
+        <p>Dashboard com receita, lucro líquido e desconto automático de taxas de cartão. Sabe exatamente quanto entra no caixa.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#D1FAE5;">🧑‍🎨</div>
+        <h3>Gestão de Equipe</h3>
+        <p>Cadastre tatuadores com níveis de acesso (Master, Gerente, Tatuador) e acompanhe o desempenho de cada um.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#FEF3C7;">📦</div>
+        <h3>Controle de Estoque</h3>
+        <p>Gerencie materiais com alertas de estoque mínimo. Marque produtos como vendáveis e controle as saídas por sessão.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#FEE2E2;">💳</div>
+        <h3>Múltiplas Formas de Pagamento</h3>
+        <p>Registre pagamentos em PIX, dinheiro, débito e crédito com cálculo automático das taxas de cada operadora.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#FEE4D6;">👥</div>
+        <h3>Cadastro de Clientes</h3>
+        <p>Histórico completo de cada cliente: sessões realizadas, valores pagos e preferências. Tudo organizado.</p>
+        <span class="feature-tag tag-new">Em breve</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#EDE9FE;">📋</div>
+        <h3>Ficha de Anamnese Digital</h3>
+        <p>Elimine o papel com fichas digitais enviadas ao cliente antes da sessão. Segurança jurídica para o seu estúdio.</p>
+        <span class="feature-tag tag-soon">Em breve</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#FEF3C7;">📊</div>
+        <h3>Relatórios e Metas</h3>
+        <p>Acompanhe o crescimento do estúdio com relatórios detalhados e defina metas mensais para sua equipe.</p>
+        <span class="feature-tag tag-soon">Em breve</span>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#D1FAE5;">💬</div>
+        <h3>Lembretes Automáticos</h3>
+        <p>Envie lembretes de sessão automaticamente via WhatsApp. Reduza faltas e aumente a satisfação do cliente.</p>
+        <span class="feature-tag tag-soon">Em breve</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── COMO FUNCIONA ──────────────────────────────────── -->
+<section id="como-funciona">
+  <div class="container">
+    <div class="section-header center">
+      <div class="section-label">Como funciona</div>
+      <h2 class="section-title">Simples do início ao fim</h2>
+      <p class="section-sub">Em menos de 5 minutos seu estúdio já está configurado e funcionando.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Cadastre seu estúdio</h3>
+        <p>Crie sua conta gratuitamente, configure o nome do estúdio e cadastre sua equipe de tatuadores com os níveis de acesso de cada um.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Registre suas sessões</h3>
+        <p>Abra sessões para cada cliente, defina o valor, o tatuador responsável e acompanhe o status em tempo real até a conclusão.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Acompanhe os resultados</h3>
+        <p>Veja no dashboard quanto seu estúdio faturou, qual é o lucro líquido e como cada tatuador está performando.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PLANOS ─────────────────────────────────────────── -->
+<section id="planos">
+  <div class="container">
+    <div class="section-header center">
+      <div class="section-label">Planos</div>
+      <h2 class="section-title">Preço justo para todo tipo de estúdio</h2>
+      <p class="section-sub">Comece grátis e cresça no seu ritmo. Sem surpresas, sem taxas escondidas.</p>
+    </div>
+    <div class="pricing-grid">
+
+      <!-- SOLO -->
+      <div class="pricing-card">
+        <div class="plan-name">Solo</div>
+        <div class="plan-desc">Para tatuadores independentes</div>
+        <div class="plan-price">
+          <span class="currency">R$</span>
+          <span class="amount">0</span>
+          <span class="period">/mês</span>
+        </div>
+        <div class="plan-note">Para sempre gratuito</div>
+        <button class="plan-cta cta-ghost" onclick="alert('Cadastro em breve!')">Começar grátis</button>
+        <div class="plan-divider"></div>
+        <div class="plan-features">
+          <div class="plan-feature"><span class="check">✓</span> 1 tatuador</div>
+          <div class="plan-feature"><span class="check">✓</span> Gestão de sessões</div>
+          <div class="plan-feature"><span class="check">✓</span> Controle financeiro básico</div>
+          <div class="plan-feature"><span class="check">✓</span> Cadastro de clientes</div>
+          <div class="plan-feature"><span class="dash">–</span> Múltiplos tatuadores</div>
+          <div class="plan-feature"><span class="dash">–</span> Gestão de equipe</div>
+          <div class="plan-feature"><span class="dash">–</span> Relatórios avançados</div>
+        </div>
+      </div>
+
+      <!-- ESTÚDIO -->
+      <div class="pricing-card popular">
+        <div class="popular-badge">⭐ Mais popular</div>
+        <div class="plan-name">Estúdio</div>
+        <div class="plan-desc">Para estúdios em crescimento</div>
+        <div class="plan-price">
+          <span class="currency">R$</span>
+          <span class="amount">99</span>
+          <span class="period">/mês</span>
+        </div>
+        <div class="plan-note">ou R$ 990/ano — economize 2 meses</div>
+        <button class="plan-cta cta-primary" onclick="alert('Cadastro em breve!')">Testar 14 dias grátis</button>
+        <div class="plan-divider"></div>
+        <div class="plan-features">
+          <div class="plan-feature"><span class="check">✓</span> Até 4 tatuadores</div>
+          <div class="plan-feature"><span class="check">✓</span> Tudo do plano Solo</div>
+          <div class="plan-feature"><span class="check">✓</span> Gestão de equipe com roles</div>
+          <div class="plan-feature"><span class="check">✓</span> Controle de estoque completo</div>
+          <div class="plan-feature"><span class="check">✓</span> Dashboard financeiro avançado</div>
+          <div class="plan-feature"><span class="check">✓</span> Taxas de cartão automáticas</div>
+          <div class="plan-feature"><span class="dash">–</span> Tatuadores ilimitados</div>
+        </div>
+      </div>
+
+      <!-- PRO -->
+      <div class="pricing-card">
+        <div class="plan-name">Pro</div>
+        <div class="plan-desc">Para grandes estúdios e redes</div>
+        <div class="plan-price">
+          <span class="currency">R$</span>
+          <span class="amount">179</span>
+          <span class="period">/mês</span>
+        </div>
+        <div class="plan-note">ou R$ 1.790/ano — economize 2 meses</div>
+        <button class="plan-cta cta-outline" onclick="alert('Cadastro em breve!')">Testar 14 dias grátis</button>
+        <div class="plan-divider"></div>
+        <div class="plan-features">
+          <div class="plan-feature"><span class="check">✓</span> Tatuadores ilimitados</div>
+          <div class="plan-feature"><span class="check">✓</span> Tudo do plano Estúdio</div>
+          <div class="plan-feature"><span class="check">✓</span> Relatórios e metas avançados</div>
+          <div class="plan-feature"><span class="check">✓</span> Ficha de anamnese digital</div>
+          <div class="plan-feature"><span class="check">✓</span> Lembretes automáticos</div>
+          <div class="plan-feature"><span class="check">✓</span> Suporte prioritário</div>
+          <div class="plan-feature"><span class="check">✓</span> Acesso antecipado a novidades</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── FAQ ───────────────────────────────────────────── -->
+<section id="faq">
+  <div class="container">
+    <div class="section-header center">
+      <div class="section-label">Dúvidas</div>
+      <h2 class="section-title">Perguntas frequentes</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Preciso de cartão de crédito para começar? <span class="faq-arrow">›</span>
+        </button>
+        <div class="faq-a">Não. O plano Solo é gratuito para sempre e não exige nenhum dado de pagamento. Você só fornece dados de cobrança se optar por um plano pago.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Posso cancelar a qualquer momento? <span class="faq-arrow">›</span>
+        </button>
+        <div class="faq-a">Sim, sem burocracia. Não há fidelidade nem multa por cancelamento. Se cancelar, seus dados ficam disponíveis para exportação por 30 dias.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          O sistema funciona no celular? <span class="faq-arrow">›</span>
+        </button>
+        <div class="faq-a">Sim. O INKontrol é 100% online e responsivo, funcionando em smartphones, tablets e computadores sem precisar instalar nada.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Meus dados estão seguros? <span class="faq-arrow">›</span>
+        </button>
+        <div class="faq-a">Sim. Os dados do seu estúdio são isolados e criptografados. Nenhum outro estúdio tem acesso às suas informações. Utilizamos infraestrutura de nível enterprise.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Posso migrar meus dados de outro sistema? <span class="faq-arrow">›</span>
+        </button>
+        <div class="faq-a">Estamos desenvolvendo ferramentas de importação. Por enquanto, nossa equipe pode ajudar com a migração manual dos dados principais. Entre em contato.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA BANNER ────────────────────────────────────── -->
+<section style="padding: 0 0 96px;">
+  <div class="container">
+    <div class="cta-banner">
+      <h2>Pronto para ter controle total<br>do seu estúdio?</h2>
+      <p>Junte-se a centenas de estúdios que já gerenciam melhor com o INKontrol.</p>
+      <div class="btn-row">
+        <button class="btn btn-white btn-lg" onclick="alert('Cadastro em breve!')">🚀 Começar teste gratuito</button>
+        <button class="btn btn-outline-white btn-lg" onclick="alert('Cadastro em breve!')">Falar com a equipe</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ────────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2C9.5 2 7.5 3.5 6.5 5.5C5 5.2 3 6.5 3 9c0 1.5.8 2.8 2 3.5V20a1 1 0 001 1h12a1 1 0 001-1v-7.5c1.2-.7 2-2 2-3.5 0-2.5-2-3.8-3.5-3.5C16.5 3.5 14.5 2 12 2zm0 2c1.8 0 3.2 1.2 3.5 2.8l.2.9.9-.3c.9-.3 1.9.3 1.9 1.6 0 .9-.6 1.7-1.5 2l-.5.2V20H8v-8.8l-.5-.2C6.6 10.7 6 9.9 6 9c0-1.3 1-.9 1.9-1.6l.9.3.2-.9C9.3 5.2 10.2 4 12 4zm-1 8v2h2v-2h-2zm0 3v2h2v-2h-2z"/></svg>
+          </div>
+          <div class="logo-text"><span>INK</span>ontrol</div>
+        </div>
+        <p>Sistema de gestão completo para estúdios de tatuagem. Simples, profissional e feito para crescer com você.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Produto</h4>
+        <a href="#funcionalidades">Funcionalidades</a>
+        <a href="#planos">Planos e preços</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="footer-col">
+        <h4>Empresa</h4>
+        <a href="#">Sobre nós</a>
+        <a href="#">Blog</a>
+        <a href="#">Contato</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="#">Termos de uso</a>
+        <a href="#">Privacidade</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 INKontrol. Todos os direitos reservados.</span>
+      <span>Feito com ❤️ no Brasil</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.getElementById('btn-light').classList.toggle('active', theme === 'light');
+    document.getElementById('btn-dark').classList.toggle('active', theme === 'dark');
+  }
+
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+</script>
+</body>
+</html>
