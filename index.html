@@ -98,7 +98,7 @@
       display: inline-flex; align-items: center; gap: 7px;
       padding: 9px 18px; border-radius: 8px;
       font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
-      cursor: pointer; border: none; transition: all .18s; white-space: nowrap;
+      cursor: pointer; border: none; transition: all .18s; white-space: nowrap; text-decoration: none;
     }
     .btn-primary { background: var(--primary); color: white; box-shadow: 0 2px 8px rgba(194,65,12,.3); }
     .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(194,65,12,.4); }
@@ -374,7 +374,7 @@
     }
     .plan-feature .check { color: var(--success); font-size: 15px; flex-shrink: 0; margin-top: 1px; }
     .plan-feature .dash  { color: var(--text-muted); font-size: 15px; flex-shrink: 0; margin-top: 1px; }
-    .plan-cta { display: block; text-align: center; padding: 12px; border-radius: 9px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all .18s; }
+    .plan-cta { display: block; text-align: center; padding: 12px; border-radius: 9px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all .18s; text-decoration: none; }
     .cta-primary { background: var(--primary); color: white; box-shadow: 0 2px 8px rgba(194,65,12,.3); }
     .cta-primary:hover { background: var(--primary-hover); }
     .cta-outline { background: transparent; color: var(--primary); border: 1.5px solid var(--primary); }
@@ -505,7 +505,7 @@
         <button class="theme-btn" id="btn-dark" onclick="setTheme('dark')">🌙</button>
       </div>
       <a href="https://app.inkontrol.com.br" class="btn btn-ghost" style="text-decoration: none;">Entrar</a>
-      <button class="btn btn-primary" onclick="alert('Cadastro em breve!')">Teste grátis</button>
+      <a href="https://app.inkontrol.com.br/cadastro" class="btn btn-primary">Teste grátis</a>
     </div>
   </div>
 </nav>
@@ -520,12 +520,12 @@
     <h1>Tudo que seu estúdio<br>precisa, em <span class="highlight">um só lugar</span></h1>
     <p>Gerencie sessões, comissões, estoque e finanças do seu estúdio de tatuagem de forma simples, rápida e profissional.</p>
     <div class="hero-actions">
-      <button class="btn btn-primary btn-xl" onclick="alert('Cadastro em breve!')">
+      <a href="https://app.inkontrol.com.br/cadastro" class="btn btn-primary btn-xl">
         🚀 Começar teste gratuito
-      </button>
-      <button class="btn btn-outline btn-xl" onclick="alert('Cadastro em breve!')">
+      </a>
+      <a href="https://app.inkontrol.com.br/cadastro" class="btn btn-outline btn-xl">
         Cadastrar meu estúdio
-      </button>
+      </a>
     </div>
     <p class="hero-note"><span>✓ Grátis para 1 tatuador</span> · Sem cartão de crédito · Cancele quando quiser</p>
 
@@ -720,7 +720,7 @@
           <span class="period">/mês</span>
         </div>
         <div class="plan-note">Para sempre gratuito</div>
-        <button class="plan-cta cta-ghost" onclick="alert('Cadastro em breve!')">Começar grátis</button>
+        <a href="https://app.inkontrol.com.br/cadastro" class="plan-cta cta-ghost">Começar grátis</a>
         <div class="plan-divider"></div>
         <div class="plan-features">
           <div class="plan-feature"><span class="check">✓</span> 1 tatuador</div>
@@ -744,7 +744,7 @@
           <span class="period">/mês</span>
         </div>
         <div class="plan-note">ou R$ 990/ano — economize 2 meses</div>
-        <button class="plan-cta cta-primary" onclick="alert('Cadastro em breve!')">Testar 14 dias grátis</button>
+        <a href="https://app.inkontrol.com.br/cadastro" class="plan-cta cta-primary">Testar 14 dias grátis</a>
         <div class="plan-divider"></div>
         <div class="plan-features">
           <div class="plan-feature"><span class="check">✓</span> Até 4 tatuadores</div>
@@ -767,7 +767,7 @@
           <span class="period">/mês</span>
         </div>
         <div class="plan-note">ou R$ 1.790/ano — economize 2 meses</div>
-        <button class="plan-cta cta-outline" onclick="alert('Cadastro em breve!')">Testar 14 dias grátis</button>
+        <a href="https://app.inkontrol.com.br/cadastro" class="plan-cta cta-outline">Testar 14 dias grátis</a>
         <div class="plan-divider"></div>
         <div class="plan-features">
           <div class="plan-feature"><span class="check">✓</span> Tatuadores ilimitados</div>
@@ -833,8 +833,8 @@
       <h2>Pronto para ter controle total<br>do seu estúdio?</h2>
       <p>Junte-se a centenas de estúdios que já gerenciam melhor com o INKontrol.</p>
       <div class="btn-row">
-        <button class="btn btn-white btn-lg" onclick="alert('Cadastro em breve!')">🚀 Começar teste gratuito</button>
-        <button class="btn btn-outline-white btn-lg" onclick="alert('Cadastro em breve!')">Falar com a equipe</button>
+        <a href="https://app.inkontrol.com.br/cadastro" class="btn btn-white btn-lg">🚀 Começar teste gratuito</a>
+        <a href="https://wa.me/5511981069468?text=Ol%C3%A1!%20Vi%20o%20INKontrol%20no%20site%20e%20quero%20saber%20mais." target="_blank" rel="noopener" class="btn btn-outline-white btn-lg">Falar com a equipe</a>
       </div>
     </div>
   </div>
