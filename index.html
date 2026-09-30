@@ -333,7 +333,9 @@
 
     /* ─── PRICING ────────────────────────────────────── */
     #planos { background: var(--surface); }
-    .pricing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; align-items: start; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 24px; align-items: start; max-width: 820px; margin: 0 auto; }
+    .pricing-footnote { max-width: 820px; margin: 28px auto 0; text-align: center; font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+    .pricing-footnote a { color: var(--primary); font-weight: 600; }
     .pricing-card {
       background: var(--bg); border: 1.5px solid var(--border);
       border-radius: 16px; padding: 28px; position: relative;
@@ -402,7 +404,7 @@
       max-height: 0; overflow: hidden; transition: max-height .3s ease, padding .3s;
       font-size: 14px; color: var(--text-secondary); line-height: 1.7; padding: 0 20px;
     }
-    .faq-item.open .faq-a { max-height: 200px; padding: 0 20px 18px; }
+    .faq-item.open .faq-a { max-height: 400px; padding: 0 20px 18px; }
 
     /* ─── CTA BANNER ─────────────────────────────────── */
     .cta-banner {
@@ -527,7 +529,7 @@
         Cadastrar meu estúdio
       </a>
     </div>
-    <p class="hero-note"><span>✓ Grátis para 1 tatuador</span> · Sem cartão de crédito · Cancele quando quiser</p>
+    <p class="hero-note"><span>✓ 14 dias grátis</span> · Sem cartão de crédito · Cancele quando quiser</p>
 
     <div class="hero-mockup">
       <div class="mockup-glow"></div>
@@ -648,19 +650,17 @@
         <div class="feature-icon" style="background:#FEE4D6;">👥</div>
         <h3>Cadastro de Clientes</h3>
         <p>Histórico completo de cada cliente: sessões realizadas, valores pagos e preferências. Tudo organizado.</p>
-        <span class="feature-tag tag-new">Em breve</span>
       </div>
       <div class="feature-card">
         <div class="feature-icon" style="background:#EDE9FE;">📋</div>
         <h3>Ficha de Anamnese Digital</h3>
         <p>Elimine o papel com fichas digitais enviadas ao cliente antes da sessão. Segurança jurídica para o seu estúdio.</p>
-        <span class="feature-tag tag-soon">Em breve</span>
+        <span class="feature-tag tag-new">Novo</span>
       </div>
       <div class="feature-card">
         <div class="feature-icon" style="background:#FEF3C7;">📊</div>
         <h3>Relatórios e Metas</h3>
         <p>Acompanhe o crescimento do estúdio com relatórios detalhados e defina metas mensais para sua equipe.</p>
-        <span class="feature-tag tag-soon">Em breve</span>
       </div>
       <div class="feature-card">
         <div class="feature-icon" style="background:#D1FAE5;">💬</div>
@@ -706,30 +706,35 @@
     <div class="section-header center">
       <div class="section-label">Planos</div>
       <h2 class="section-title">Preço justo para todo tipo de estúdio</h2>
-      <p class="section-sub">Comece grátis e cresça no seu ritmo. Sem surpresas, sem taxas escondidas.</p>
+      <p class="section-sub">14 dias grátis pra testar tudo, sem cartão. Depois, escolha o plano que cabe no seu estúdio. Sem surpresas, sem taxas escondidas.</p>
     </div>
     <div class="pricing-grid">
 
-      <!-- SOLO -->
+      <!-- ESSENCIAL -->
       <div class="pricing-card">
-        <div class="plan-name">Solo</div>
-        <div class="plan-desc">Para tatuadores independentes</div>
+        <div class="plan-name">Essencial</div>
+        <div class="plan-desc">Para o tatuador que trabalha sozinho</div>
         <div class="plan-price">
           <span class="currency">R$</span>
-          <span class="amount">0</span>
+          <span class="amount">49</span>
           <span class="period">/mês</span>
         </div>
-        <div class="plan-note">Para sempre gratuito</div>
-        <a href="https://app.inkontrol.com.br/cadastro" class="plan-cta cta-ghost">Começar grátis</a>
+        <div class="plan-note">ou R$ 490/ano — economize 2 meses</div>
+        <a href="https://app.inkontrol.com.br/cadastro" class="plan-cta cta-outline">Testar 14 dias grátis</a>
         <div class="plan-divider"></div>
         <div class="plan-features">
-          <div class="plan-feature"><span class="check">✓</span> 1 tatuador</div>
-          <div class="plan-feature"><span class="check">✓</span> Gestão de sessões</div>
-          <div class="plan-feature"><span class="check">✓</span> Controle financeiro básico</div>
-          <div class="plan-feature"><span class="check">✓</span> Cadastro de clientes</div>
-          <div class="plan-feature"><span class="dash">–</span> Múltiplos tatuadores</div>
-          <div class="plan-feature"><span class="dash">–</span> Gestão de equipe</div>
-          <div class="plan-feature"><span class="dash">–</span> Relatórios avançados</div>
+          <div class="plan-feature"><span class="check">✓</span> 1 acesso (você)</div>
+          <div class="plan-feature"><span class="check">✓</span> Agenda, sessões, sinal e pagamentos</div>
+          <div class="plan-feature"><span class="check">✓</span> Cadastro de clientes com histórico</div>
+          <div class="plan-feature"><span class="check">✓</span> Ficha de anamnese digital + termo assinado</div>
+          <div class="plan-feature"><span class="check">✓</span> Financeiro: receitas, despesas e resumo do mês</div>
+          <div class="plan-feature"><span class="check">✓</span> Maquininhas e taxas de cartão</div>
+          <div class="plan-feature"><span class="check">✓</span> Controle de estoque</div>
+          <div class="plan-feature"><span class="check">✓</span> Dashboard e backup dos dados</div>
+          <div class="plan-feature"><span class="dash">–</span> Equipe, cargos e comissões</div>
+          <div class="plan-feature"><span class="dash">–</span> Cartões, parcelas e planejamento</div>
+          <div class="plan-feature"><span class="dash">–</span> Relatórios completos em PDF</div>
+          <div class="plan-feature"><span class="dash">–</span> Eventos e programa de fidelidade</div>
         </div>
       </div>
 
@@ -737,50 +742,29 @@
       <div class="pricing-card popular">
         <div class="popular-badge">⭐ Mais popular</div>
         <div class="plan-name">Estúdio</div>
-        <div class="plan-desc">Para estúdios em crescimento</div>
+        <div class="plan-desc">Para estúdios com equipe</div>
         <div class="plan-price">
           <span class="currency">R$</span>
           <span class="amount">99</span>
           <span class="period">/mês</span>
         </div>
-        <div class="plan-note">ou R$ 990/ano — economize 2 meses</div>
+        <div class="plan-note">3 acessos inclusos · + R$ 10/mês por acesso extra<br>ou R$ 990/ano — economize 2 meses</div>
         <a href="https://app.inkontrol.com.br/cadastro" class="plan-cta cta-primary">Testar 14 dias grátis</a>
         <div class="plan-divider"></div>
         <div class="plan-features">
-          <div class="plan-feature"><span class="check">✓</span> Até 4 tatuadores</div>
-          <div class="plan-feature"><span class="check">✓</span> Tudo do plano Solo</div>
-          <div class="plan-feature"><span class="check">✓</span> Gestão de equipe com roles</div>
-          <div class="plan-feature"><span class="check">✓</span> Controle de estoque completo</div>
-          <div class="plan-feature"><span class="check">✓</span> Dashboard financeiro avançado</div>
-          <div class="plan-feature"><span class="check">✓</span> Taxas de cartão automáticas</div>
-          <div class="plan-feature"><span class="dash">–</span> Tatuadores ilimitados</div>
-        </div>
-      </div>
-
-      <!-- PRO -->
-      <div class="pricing-card">
-        <div class="plan-name">Pro</div>
-        <div class="plan-desc">Para grandes estúdios e redes</div>
-        <div class="plan-price">
-          <span class="currency">R$</span>
-          <span class="amount">179</span>
-          <span class="period">/mês</span>
-        </div>
-        <div class="plan-note">ou R$ 1.790/ano — economize 2 meses</div>
-        <a href="https://app.inkontrol.com.br/cadastro" class="plan-cta cta-outline">Testar 14 dias grátis</a>
-        <div class="plan-divider"></div>
-        <div class="plan-features">
-          <div class="plan-feature"><span class="check">✓</span> Tatuadores ilimitados</div>
-          <div class="plan-feature"><span class="check">✓</span> Tudo do plano Estúdio</div>
-          <div class="plan-feature"><span class="check">✓</span> Relatórios e metas avançados</div>
-          <div class="plan-feature"><span class="check">✓</span> Ficha de anamnese digital</div>
-          <div class="plan-feature"><span class="check">✓</span> Lembretes automáticos</div>
-          <div class="plan-feature"><span class="check">✓</span> Suporte prioritário</div>
-          <div class="plan-feature"><span class="check">✓</span> Acesso antecipado a novidades</div>
+          <div class="plan-feature"><span class="check">✓</span> Tudo do Essencial</div>
+          <div class="plan-feature"><span class="check">✓</span> 3 acessos inclusos, até 10 no total</div>
+          <div class="plan-feature"><span class="check">✓</span> Equipe com cargos: gerente, recepção, financeiro, tatuador</div>
+          <div class="plan-feature"><span class="check">✓</span> Comissão sobre o valor líquido e relatório por tatuador</div>
+          <div class="plan-feature"><span class="check">✓</span> Cartões do estúdio, parcelas e planejamento financeiro</div>
+          <div class="plan-feature"><span class="check">✓</span> Relatórios completos com exportação em PDF</div>
+          <div class="plan-feature"><span class="check">✓</span> Eventos: flash day, convenções, feiras</div>
+          <div class="plan-feature"><span class="check">✓</span> Programa de fidelidade por pontos</div>
         </div>
       </div>
 
     </div>
+    <p class="pricing-footnote">Acesso = pessoa com login no sistema, incluindo você. Funcionário cadastrado só pra comissão, sem login, não conta. Mais de 10 acessos? <a href="https://wa.me/5511981069468?text=Ol%C3%A1!%20Tenho%20um%20est%C3%BAdio%20com%20mais%20de%2010%20pessoas%20e%20quero%20saber%20sobre%20o%20INKontrol." target="_blank" rel="noopener">Fale com a gente</a>.</p>
   </div>
 </section>
 
@@ -796,7 +780,19 @@
         <button class="faq-q" onclick="toggleFaq(this)">
           Preciso de cartão de crédito para começar? <span class="faq-arrow">›</span>
         </button>
-        <div class="faq-a">Não. O plano Solo é gratuito para sempre e não exige nenhum dado de pagamento. Você só fornece dados de cobrança se optar por um plano pago.</div>
+        <div class="faq-a">Não. Os 14 dias de teste não pedem cartão nem nenhum dado de pagamento. Ao fim do teste você escolhe o plano e paga por Pix, boleto ou cartão. Se não contratar, o acesso é pausado e seus dados ficam guardados por 30 dias.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          O que conta como "acesso"? <span class="faq-arrow">›</span>
+        </button>
+        <div class="faq-a">Cada pessoa com login no sistema, incluindo você. O plano Estúdio inclui 3 acessos e cada acesso extra custa R$ 10 por mês, até 10 no total. Funcionário cadastrado só pra controle de comissão, sem login, não conta como acesso.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Posso mudar de plano depois? <span class="faq-arrow">›</span>
+        </button>
+        <div class="faq-a">Sim. Você pode subir do Essencial pro Estúdio a qualquer momento, e a diferença é cobrada proporcional ao período. Pra reduzir, a mudança vale a partir da próxima renovação.</div>
       </div>
       <div class="faq-item">
         <button class="faq-q" onclick="toggleFaq(this)">
@@ -862,15 +858,13 @@
       </div>
       <div class="footer-col">
         <h4>Empresa</h4>
-        <a href="#">Sobre nós</a>
-        <a href="#">Blog</a>
-        <a href="#">Contato</a>
+        <a href="https://wa.me/5511981069468?text=Ol%C3%A1!%20Vi%20o%20INKontrol%20no%20site%20e%20quero%20saber%20mais." target="_blank" rel="noopener">Contato (WhatsApp)</a>
+        <a href="mailto:contato@inkontrol.com.br">contato@inkontrol.com.br</a>
       </div>
       <div class="footer-col">
         <h4>Legal</h4>
-        <a href="#">Termos de uso</a>
-        <a href="#">Privacidade</a>
-        <a href="#">Cookies</a>
+        <a href="https://app.inkontrol.com.br/termos" target="_blank" rel="noopener">Termos de uso</a>
+        <a href="https://app.inkontrol.com.br/privacidade" target="_blank" rel="noopener">Privacidade</a>
       </div>
     </div>
     <div class="footer-bottom">
