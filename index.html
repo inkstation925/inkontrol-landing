@@ -37,8 +37,10 @@
     "description": "Sistema de gestão para estúdio de tatuagem: agenda, comissões, ficha de anamnese com termo assinado, estoque, eventos e financeiro com DRE.",
     "inLanguage": "pt-BR",
     "offers": [
-      { "@type": "Offer", "name": "Essencial", "price": "49.00", "priceCurrency": "BRL", "url": "https://app.inkontrol.com.br/cadastro", "description": "1 acesso. Agenda, clientes, ficha de anamnese, financeiro, maquininhas e estoque. R$ 490 por ano." },
-      { "@type": "Offer", "name": "Estúdio", "price": "99.00", "priceCurrency": "BRL", "url": "https://app.inkontrol.com.br/cadastro", "description": "3 acessos inclusos e R$ 10 por acesso extra até 10. Tudo do Essencial mais equipe, comissões, cartões, planejamento, relatórios, eventos e fidelidade. R$ 990 por ano." }
+      { "@type": "Offer", "name": "Grátis", "price": "0.00", "priceCurrency": "BRL", "url": "https://app.inkontrol.com.br/cadastro", "description": "1 acesso. Agenda, clientes, ficha de anamnese com termo, dashboard, receitas e despesas." },
+      { "@type": "Offer", "name": "Essencial", "price": "49.00", "priceCurrency": "BRL", "url": "https://app.inkontrol.com.br/cadastro", "description": "1 acesso. Tudo do Grátis mais maquininhas, estoque, backup, tarefas e avisos no celular. R$ 490 por ano." },
+      { "@type": "Offer", "name": "Estúdio", "price": "99.00", "priceCurrency": "BRL", "url": "https://app.inkontrol.com.br/cadastro", "description": "3 acessos inclusos e R$ 10 por acesso extra até 10. Tudo do Essencial mais equipe, comissões, cartões, planejamento, relatórios e fidelidade. R$ 990 por ano." },
+      { "@type": "Offer", "name": "Completo", "price": "149.00", "priceCurrency": "BRL", "url": "https://app.inkontrol.com.br/cadastro", "description": "5 acessos inclusos e R$ 10 por acesso extra até 10. Tudo do Estúdio mais Eventos e Orçamento inclusos. R$ 1.490 por ano." }
     ]
   }
   </script>
@@ -158,7 +160,11 @@
     @media (max-width: 880px) { .events-grid { grid-template-columns: 1fr; } }
 
     /* Planos */
-    .pricing-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 440px)); gap: 24px; justify-content: center; margin-top: 44px; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 380px)); gap: 24px; justify-content: center; margin-top: 44px; }
+    .extras { max-width: 1188px; margin: 24px auto 0; padding: 22px 26px; border: 1px dashed var(--border); border-radius: var(--r-lg); display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 20px; align-items: start; }
+    .extras h3 { font-family: var(--font-heading); font-size: 20px; font-weight: 700; margin-bottom: 6px; } .extras p { font-size: 14px; color: var(--muted); }
+    .extra-name { font-weight: 700; font-size: 16px; } .extra-price { font-family: var(--font-heading); font-weight: 800; font-size: 22px; margin: 4px 0 2px; } .extra-price span { font-size: 14px; color: var(--muted); font-weight: 500; }
+    @media (max-width: 1100px) { .pricing-grid { grid-template-columns: 1fr; max-width: 440px; margin-left: auto; margin-right: auto; } .extras { grid-template-columns: 1fr; } }
     .plan { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 30px 28px; position: relative; display: flex; flex-direction: column; }
     .plan.popular { border-color: var(--brand); }
     .badge { position: absolute; top: -13px; left: 28px; background: var(--brand); color: var(--on-brand); font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 6px; letter-spacing: .04em; text-transform: uppercase; }
@@ -169,7 +175,6 @@
     .plan ul { list-style: none; display: grid; gap: 10px; }
     .plan li { display: flex; gap: 10px; font-size: 15px; color: var(--text); } .plan li .ic { width: 18px; height: 18px; margin-top: 3px; color: var(--ok); } .plan li.off { color: var(--muted); } .plan li.off .ic { color: var(--border); }
     .footnote { text-align: center; font-size: 14px; margin-top: 24px; }
-    @media (max-width: 880px) { .pricing-grid { grid-template-columns: 1fr; } }
 
     /* FAQ */
     .faq-list { max-width: 760px; margin: 36px auto 0; display: grid; gap: 10px; }
@@ -410,12 +415,12 @@
     <div class="center">
       <span class="eyebrow">Planos</span>
       <h2>Preço justo pra todo tipo de estúdio</h2>
-      <p class="lead">14 dias grátis pra testar tudo, sem cartão. Depois, o plano que cabe no seu estúdio. Sem taxa escondida.</p>
+      <p class="lead">14 dias grátis pra testar tudo, sem cartão. Depois, o plano que cabe no seu estúdio. Quem tatua sozinho pode seguir no <strong>Grátis</strong>: agenda, clientes, ficha de anamnese com termo, dashboard e receitas e despesas, 1 acesso, R$ 0 pra sempre. Sem taxa escondida.</p>
     </div>
     <div class="pricing-grid">
       <div class="plan">
         <div class="plan-name">Essencial</div>
-        <div class="plan-desc">Pra quem tatua sozinho</div>
+        <div class="plan-desc">Pra quem tatua sozinho e quer controle</div>
         <div class="price"><span class="cur">R$</span><span class="amt">49</span><span class="per">/mês</span></div>
         <div class="plan-note">ou R$ 490 por ano, 2 meses de economia</div>
         <a href="https://app.inkontrol.com.br/cadastro" class="btn btn-secondary">Testar 14 dias grátis</a>
@@ -428,10 +433,10 @@
           <li><svg class="ic"><use href="#i-check"/></svg>Maquininhas e taxas de cartão</li>
           <li><svg class="ic"><use href="#i-check"/></svg>Controle de estoque</li>
           <li><svg class="ic"><use href="#i-check"/></svg>Dashboard e backup dos dados</li>
+          <li><svg class="ic"><use href="#i-check"/></svg>Tarefas do dia e avisos no celular</li>
           <li class="off"><svg class="ic"><use href="#i-minus"/></svg>Equipe, cargos e comissões</li>
           <li class="off"><svg class="ic"><use href="#i-minus"/></svg>Cartões, parcelas e planejamento</li>
-          <li class="off"><svg class="ic"><use href="#i-minus"/></svg>Relatórios completos em PDF</li>
-          <li class="off"><svg class="ic"><use href="#i-minus"/></svg>Eventos e programa de fidelidade</li>
+          <li class="off"><svg class="ic"><use href="#i-minus"/></svg>Relatórios completos em PDF e fidelidade</li>
         </ul>
       </div>
       <div class="plan popular">
@@ -448,9 +453,40 @@
           <li><svg class="ic"><use href="#i-check"/></svg>Comissão sobre o líquido e relatório por tatuador</li>
           <li><svg class="ic"><use href="#i-check"/></svg>Cartões do estúdio, parcelas e planejamento financeiro</li>
           <li><svg class="ic"><use href="#i-check"/></svg>Relatórios completos com exportação em PDF</li>
-          <li><svg class="ic"><use href="#i-check"/></svg>Eventos: flash day, convenção e feira</li>
           <li><svg class="ic"><use href="#i-check"/></svg>Programa de fidelidade por pontos</li>
+          <li class="off"><svg class="ic"><use href="#i-minus"/></svg>Eventos e Orçamento: extras à parte</li>
         </ul>
+      </div>
+      <div class="plan">
+        <div class="plan-name">Completo</div>
+        <div class="plan-desc">Pra estúdio que faz evento e manda orçamento</div>
+        <div class="price"><span class="cur">R$</span><span class="amt">149</span><span class="per">/mês</span></div>
+        <div class="plan-note">5 acessos inclusos, + R$ 10 por mês por acesso extra<br>ou R$ 1.490 por ano, 2 meses de economia</div>
+        <a href="https://app.inkontrol.com.br/cadastro" class="btn btn-secondary">Testar 14 dias grátis</a>
+        <ul>
+          <li><svg class="ic"><use href="#i-check"/></svg>Tudo do Estúdio</li>
+          <li><svg class="ic"><use href="#i-check"/></svg>5 acessos inclusos, até 10 no total</li>
+          <li><svg class="ic"><use href="#i-check"/></svg>Eventos: flash day, convenção e feira, com fila e telão</li>
+          <li><svg class="ic"><use href="#i-check"/></svg>Agenda pública do evento com sinal por Pix</li>
+          <li><svg class="ic"><use href="#i-check"/></svg>Orçamento por blocos, valor por sessão e PDF com link pro cliente</li>
+          <li><svg class="ic"><use href="#i-check"/></svg>Os dois extras já inclusos, sem custo à parte</li>
+        </ul>
+      </div>
+    </div>
+    <div class="extras">
+      <div>
+        <h3>Extras pra qualquer plano pago</h3>
+        <p>Liga só o que o seu estúdio usa, mês a mês, no Essencial ou no Estúdio. No Completo os dois já vêm.</p>
+      </div>
+      <div>
+        <div class="extra-name">Eventos</div>
+        <div class="extra-price">R$ 29 <span>/mês</span></div>
+        <p>Flash day, convenção e feira: fila com chamada por WhatsApp, telão, agenda pública com sinal por Pix e financeiro do evento separado.</p>
+      </div>
+      <div>
+        <div class="extra-name">Orçamento</div>
+        <div class="extra-price">R$ 19 <span>/mês</span></div>
+        <p>Orçamento por blocos com valor por sessão, PDF com a sua marca salvo no sistema e link pronto pra mandar no WhatsApp.</p>
       </div>
     </div>
     <p class="footnote">Acesso é pessoa com login no sistema, incluindo você. Funcionário cadastrado só pra comissão, sem login, não conta. Mais de 10 acessos? <a href="https://wa.me/5511927816952?text=Ol%C3%A1!%20Tenho%20um%20est%C3%BAdio%20com%20mais%20de%2010%20pessoas%20e%20quero%20saber%20sobre%20o%20INKontrol." target="_blank" rel="noopener">Fale com a gente</a>.</p>
@@ -470,7 +506,7 @@
       <div class="faq-item"><button class="faq-q" type="button" onclick="toggleFaq(this)">Posso trazer meus dados de outro sistema? <svg class="ic"><use href="#i-chevron-down"/></svg></button><div class="faq-a">Sim. Clientes, estoque e equipe entram por planilha, no formato de exportação do Trinks ou na planilha modelo que você baixa dentro do sistema.</div></div>
       <div class="faq-item"><button class="faq-q" type="button" onclick="toggleFaq(this)">Integra com o Google Agenda? <svg class="ic"><use href="#i-chevron-down"/></svg></button><div class="faq-a">Em breve. A integração está em teste com estúdios selecionados e será liberada pra todos quando a conexão direta com a conta Google estiver aprovada.</div></div>
       <div class="faq-item"><button class="faq-q" type="button" onclick="toggleFaq(this)">Meus dados estão seguros? <svg class="ic"><use href="#i-chevron-down"/></svg></button><div class="faq-a">Cada estúdio só enxerga os próprios dados, a separação é feita no banco. O responsável recebe um backup diário cifrado por e-mail e o sistema tem ferramentas de LGPD, como exclusão de dados de cliente e registro de consentimento.</div></div>
-      <div class="faq-item"><button class="faq-q" type="button" onclick="toggleFaq(this)">Preciso de cartão de crédito para começar? <svg class="ic"><use href="#i-chevron-down"/></svg></button><div class="faq-a">Não. Os 14 dias de teste não pedem cartão nem nenhum dado de pagamento. Ao fim do teste você escolhe o plano e paga por Pix, boleto ou cartão.</div></div>
+      <div class="faq-item"><button class="faq-q" type="button" onclick="toggleFaq(this)">Preciso de cartão de crédito para começar? <svg class="ic"><use href="#i-chevron-down"/></svg></button><div class="faq-a">Não. Os 14 dias de teste não pedem cartão nem nenhum dado de pagamento. Ao fim do teste você escolhe um plano e paga por Pix, boleto ou cartão, ou segue no Grátis sem pagar nada.</div></div>
       <div class="faq-item"><button class="faq-q" type="button" onclick="toggleFaq(this)">Posso cancelar a qualquer momento? <svg class="ic"><use href="#i-chevron-down"/></svg></button><div class="faq-a">Sim. Não há fidelidade nem multa. Você cancela quando quiser e pode exportar seus dados antes.</div></div>
       <div class="faq-item"><button class="faq-q" type="button" onclick="toggleFaq(this)">O sistema funciona no celular? <svg class="ic"><use href="#i-chevron-down"/></svg></button><div class="faq-a">Sim. É um sistema web que se adapta ao celular, ao tablet e ao computador, sem instalar nada. A ficha do cliente e as páginas de evento também funcionam no celular dele.</div></div>
     </div>
