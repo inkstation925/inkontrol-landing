@@ -1,0 +1,38 @@
+# INKontrol — www.inkontrol.com.br
+# Tudo público pode ser indexado. Robôs de busca e de IA liberados de propósito:
+# é assim que o site aparece no Google, no Bing e nas respostas do ChatGPT, Claude e Perplexity.
+
+User-agent: *
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+Sitemap: https://www.inkontrol.com.br/sitemap.xml
