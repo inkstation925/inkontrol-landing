@@ -27,6 +27,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,500..900,0..100,0..1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -171,6 +172,18 @@
       #folha { display: block !important; border: none; border-radius: 0; padding: 0; margin: 0; }
     }
 
+    /* Mini cadastro (segunda ficha) */
+    .modal-bg { position: fixed; inset: 0; background: rgba(20, 19, 17, .55); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 100; }
+    .modal-bg[hidden] { display: none; }
+    .modal { position: relative; width: 100%; max-width: 520px; max-height: 92vh; overflow: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; box-shadow: 0 40px 90px -30px rgba(0, 0, 0, .5); }
+    .modal h3 { margin: 0 0 8px; font-size: 24px; } .modal > p { font-size: 15px; margin-bottom: 14px; }
+    .modal .campos { margin: 12px 0 14px; }
+    .modal-x { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 20px; cursor: pointer; }
+    .consent { grid-column: 1 / -1; display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: var(--muted); line-height: 1.5; cursor: pointer; } .consent input { margin-top: 3px; } .consent a { color: var(--brand-text); }
+    .erro { grid-column: 1 / -1; color: var(--brand-text); font-size: 14px; margin: 0; } .erro[hidden] { display: none; }
+    .lead-ok { background: var(--ok-light); border: 1px solid var(--ok); border-radius: var(--r-lg); padding: 16px 18px; margin: 16px 0 0; font-size: 15px; color: var(--text); } .lead-ok a { color: var(--brand-text); font-weight: 600; }
+    .lead-ok[hidden] { display: none; }
+    @media (max-width: 640px) { .modal { padding: 20px; } .modal .btn-row { flex-direction: column; } }
     .cta { background: var(--ink); color: var(--paper); border-radius: var(--r-lg); padding: 36px; margin-top: 48px; }
     .cta h2, .cta h3 { color: var(--paper); } .cta p { color: #C9C1B4; max-width: 640px; }
     .cta .btn-white { background: var(--paper); color: var(--ink); } .cta .btn-white:hover { background: #fff; }
@@ -358,8 +371,31 @@
         <p class="micro">Na janela de impressão, escolha "Salvar como PDF" pra ter o arquivo. Funciona no celular também.</p>
       </div>
 
+      <div class="lead-ok so-tela" id="lead-ok" hidden>Contato recebido, obrigado. O gerador está liberado. Quando quiser a <strong>ficha digital Grátis</strong> (o cliente responde pelo link e o termo é assinado no tablet), <a id="lead-ok-link" href="https://app.inkontrol.com.br/cadastro?utm_source=site&utm_medium=ficha&utm_campaign=lead">crie o acesso aqui</a>: leva dois minutos.</div>
       <div id="folha" aria-live="polite"></div>
     </section>
+
+    <div class="modal-bg so-tela" id="lead-modal" hidden onclick="if (event.target === this) fecharLead()">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="lead-titulo">
+        <button class="modal-x" type="button" onclick="fecharLead()" aria-label="Fechar">×</button>
+        <span class="eyebrow">Segunda ficha</span>
+        <h3 id="lead-titulo">Gostou? Deixa seu contato pra continuar gerando</h3>
+        <p>A primeira ficha é por nossa conta. Pra gerar quantas quiser, só precisamos saber quem você é. Sem senha, sem cartão.</p>
+        <div class="campos">
+          <div class="campo full"><label for="l-nome">Nome completo</label><input id="l-nome" type="text" autocomplete="name" maxlength="120" /></div>
+          <div class="campo"><label for="l-cel">Celular (WhatsApp)</label><input id="l-cel" type="tel" inputmode="numeric" placeholder="(11) 90000-0000" autocomplete="tel" maxlength="16" /></div>
+          <div class="campo"><label for="l-email">E-mail</label><input id="l-email" type="email" autocomplete="email" maxlength="160" /></div>
+          <label class="consent"><input type="checkbox" id="l-consent" /><span>Aceito receber contato do INKontrol por WhatsApp e e-mail sobre a ficha digital e o sistema. <a href="https://app.inkontrol.com.br/privacidade" target="_blank" rel="noopener">Política de privacidade</a>.</span></label>
+          <div id="l-turnstile" class="full" style="grid-column: 1 / -1"></div>
+          <p class="erro" id="l-erro" hidden></p>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-primary" id="l-enviar" onclick="enviarLead()">Liberar o gerador</button>
+          <button type="button" class="btn btn-secondary" onclick="fecharLead()">Agora não</button>
+        </div>
+        <p class="micro">Seus dados ficam com o INKontrol, não vão pra ninguém, e você pode pedir a exclusão quando quiser.</p>
+      </div>
+    </div>
 
     <div class="cta">
       <span class="eyebrow" style="color:#F5554B">A versão que não precisa imprimir</span>
@@ -463,7 +499,72 @@
   ];
   function esc(s) { return String(s || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function linha(rotulo, largura) { return '<div class="linha"><span style="flex:' + (largura || 1) + '">' + esc(rotulo) + ': </span></div>'; }
+  // ─── Mini cadastro: a 1ª ficha sai sem perguntar nada; da 2ª em diante pede nome, celular e e-mail. ───
+  var SUPA_URL = 'https://opsonolnwijnijlmrjbo.supabase.co';
+  var SUPA_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9wc29ub2xud2lqbmlqbG1yamJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2NjM0MzYsImV4cCI6MjA5MDIzOTQzNn0.smzg4v2e9xBK4LpXC8TvLfXj2gw0vpNFYnYaJpiFjvU';
+  var TS_KEY = '0x4AAAAAAE5CE7KUaa_2Auem';
+  var LS_GER = 'ik_ficha_geracoes', LS_LEAD = 'ik_lead_ok';
+  function ls(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function lss(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  var pendente = null, tsWidget = null, tsToken = '';
   function gerarFicha(imprimir) {
+    var n = Number(ls(LS_GER) || 0);
+    if (n >= 1 && !ls(LS_LEAD)) { pendente = imprimir; abrirLead(); return; }
+    lss(LS_GER, String(n + 1));
+    montarFicha(imprimir);
+  }
+  function abrirLead() {
+    var m = document.getElementById('lead-modal'); m.hidden = false;
+    document.getElementById('l-erro').hidden = true;
+    setTimeout(function () { document.getElementById('l-nome').focus(); }, 50);
+    renderTurnstile();
+  }
+  function fecharLead() { document.getElementById('lead-modal').hidden = true; }
+  function renderTurnstile() {
+    if (tsWidget !== null) return;
+    if (!window.turnstile) { setTimeout(renderTurnstile, 400); return; }
+    tsWidget = window.turnstile.render('#l-turnstile', { sitekey: TS_KEY, size: 'flexible', theme: document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light', callback: function (t) { tsToken = t; }, 'expired-callback': function () { tsToken = ''; }, 'error-callback': function () { tsToken = ''; } });
+  }
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') fecharLead(); });
+  document.addEventListener('input', function (e) {
+    if (e.target && e.target.id === 'l-cel') {
+      var d = e.target.value.replace(/\D/g, '').slice(0, 11), f = d;
+      if (d.length > 2) f = '(' + d.slice(0, 2) + ') ' + d.slice(2);
+      if (d.length > 7) f = '(' + d.slice(0, 2) + ') ' + d.slice(2, d.length === 11 ? 7 : 6) + '-' + d.slice(d.length === 11 ? 7 : 6);
+      e.target.value = f;
+    }
+  });
+  function erroLead(msg) { var el = document.getElementById('l-erro'); el.textContent = msg; el.hidden = false; }
+  function enviarLead() {
+    var nome = document.getElementById('l-nome').value.trim().replace(/\s+/g, ' ');
+    var cel = document.getElementById('l-cel').value.replace(/\D/g, '');
+    var email = document.getElementById('l-email').value.trim().toLowerCase();
+    var consent = document.getElementById('l-consent').checked;
+    if (nome.split(' ').length < 2) return erroLead('Informe o nome completo.');
+    if (cel.length < 10 || cel.length > 11) return erroLead('Celular com DDD, por favor.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return erroLead('E-mail inválido.');
+    if (!consent) return erroLead('Pra gente poder falar com você, marque o aceite.');
+    if (window.turnstile && !tsToken) return erroLead('Aguarde a verificação anti-robô terminar e tente de novo.');
+    var btn = document.getElementById('l-enviar'); btn.disabled = true; btn.textContent = 'Enviando…';
+    var utm = {}; try { new URLSearchParams(location.search).forEach(function (v, k) { if (/^utm_/.test(k)) utm[k] = v; }); } catch (e) {}
+    var consentTexto = 'Aceito receber contato do INKontrol por WhatsApp e e-mail sobre a ficha digital e o sistema.';
+    fetch(SUPA_URL + '/functions/v1/lead-capturar', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'apikey': SUPA_ANON, 'Authorization': 'Bearer ' + SUPA_ANON },
+      body: JSON.stringify({ captchaToken: tsToken, nome: nome, celular: cel, email: email, consent: true, consentTexto: consentTexto, estudio: document.getElementById('g-nome').value.trim(), cidade: document.getElementById('g-cidade').value.trim(), origem: 'ficha-anamnese', pagina: location.href, utm: utm })
+    }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); }).then(function (res) {
+      btn.disabled = false; btn.textContent = 'Liberar o gerador';
+      if (!res.ok || !res.j || !res.j.ok) {
+        if (window.turnstile && tsWidget !== null) { try { window.turnstile.reset(tsWidget); } catch (e) {} tsToken = ''; }
+        return erroLead((res.j && res.j.error) || 'Não deu pra salvar agora. Tente de novo em instantes.');
+      }
+      lss(LS_LEAD, '1'); fecharLead();
+      var ok = document.getElementById('lead-ok'); ok.hidden = false;
+      var link = document.getElementById('lead-ok-link');
+      link.href = 'https://app.inkontrol.com.br/cadastro?utm_source=site&utm_medium=ficha&utm_campaign=lead&nome=' + encodeURIComponent(nome) + '&email=' + encodeURIComponent(email) + '&celular=' + encodeURIComponent(cel) + '&estudio=' + encodeURIComponent(document.getElementById('g-nome').value.trim());
+      var imp = pendente; pendente = null; montarFicha(imp === null ? false : imp);
+    }).catch(function () { btn.disabled = false; btn.textContent = 'Liberar o gerador'; erroLead('Sem conexão agora. Tente de novo em instantes.'); });
+  }
+  function montarFicha(imprimir) {
     var nome = document.getElementById('g-nome').value.trim() || 'Estúdio';
     var doc = document.getElementById('g-doc').value.trim();
     var cidade = document.getElementById('g-cidade').value.trim();
