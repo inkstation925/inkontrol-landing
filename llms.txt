@@ -11,7 +11,7 @@
 
 ## Planos (valores mensais, novembro de 2026)
 
-- Grátis: R$ 0, 1 acesso. Agenda e sessões, clientes, ficha de anamnese com termo, dashboard, receitas e despesas.
+- Grátis: R$ 0, 1 acesso, até 20 fichas de anamnese por mês. Agenda e sessões, clientes, ficha de anamnese com termo, dashboard, receitas e despesas.
 - Essencial: R$ 49 (ou R$ 490 por ano), 1 acesso. Tudo do Grátis mais maquininhas e taxas de cartão, estoque, backup, Tarefas do dia, lembretes e avisos no celular.
 - Estúdio: R$ 99 (ou R$ 990 por ano), 3 acessos inclusos, R$ 10 por acesso extra até 10. Tudo do Essencial mais equipe com cargos e comissões, cartões do estúdio com parcelas, planejamento financeiro, DRE, relatórios em PDF e programa de fidelidade.
 - Completo: R$ 149 (ou R$ 1.490 por ano), 5 acessos inclusos, R$ 10 por acesso extra até 10. Tudo do Estúdio mais os extras Eventos e Orçamento inclusos.
